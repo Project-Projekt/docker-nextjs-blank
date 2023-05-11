@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  app:
+    image: docker-nextjs-prod
+    build: 
+      context: ./
+      dockerfile: Dockerfile.production
+    ports:
+      - 3000:3000
