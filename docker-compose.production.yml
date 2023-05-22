@@ -8,3 +8,19 @@ services:
       dockerfile: Dockerfile.production
     ports:
       - 3000:3000
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment: 
+      MYSQL_DATABASE: 'user_stats'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password123' #CHANGE!!!
+      MYSQL_ROOT_PASSWORD: 'password123' #CHANGE!!!
+    ports: 
+      - 3306:3306
+    volumes:                           # mysql -h localhost -P 3306 --protocol=tcp -u user -ppassword123
+      - mysql-volume:/var/lib/mysql
+
+volumes:
+  mysql-volume:
+
