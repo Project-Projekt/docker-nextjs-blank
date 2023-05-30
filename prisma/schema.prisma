@@ -1,0 +1,15 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://user:password123@database/test?charset=utf8mb4"
+}
+
+model test {
+  id         BigInt  @id @unique(map: "id")
+  text      String
+}
+

@@ -1,14 +1,37 @@
 version: '3.9'
 
 services:
-  app:
-    image: docker-nextjs-dev
+  app:                        # docker exec -it <container id> /bin/sh
+    depends_on:
+      - database
+    stdin_open: true
+    #image: docker-nextjs-dev
     build: 
       context: ./
       dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
+      - 5555:5555
     volumes:
       - ./pages:/app/pages
       - ./public:/app/public
       - ./styles:/app/styles
+      - ./lib:/app/lib
+      - ./prisma:/app/prisma
+      - ./utils:/app/utils
+    
+  database:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment: 
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password123' #CHANGE!!!
+      MYSQL_ROOT_PASSWORD: 'password123' #CHANGE!!!
+    ports: 
+      - 3306:3306
+    volumes:                           # mysql -h localhost -P 3306 --protocol=tcp -u user -ppassword123
+      - mysql-volume:/var/lib/mysql
+
+volumes:
+  mysql-volume:
